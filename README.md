@@ -3,17 +3,7 @@ Proof of concept to extract secrets when HashiCorp Vault is unsealed.
 
 ![Vault_VerticalLogo_FullColor](https://github.com/CarlosG13/HashiCorp-Vault---Unauthenticated-Memory-Secrets-Extraction/assets/69405457/e039395c-182d-489e-a4ca-a0cd6f34b326)
 
-### HashiCorp Vault and its multiple usages
-
-• **HashiCorp Vault** represents an open-source solution designed to securely store and manage sensitive information like passwords, API keys, and other confidential data. It also offers capabilities to oversee **PKI-related** structures such as *VPNs*, *SSH CAs*, and more.
-
-• **Vault** employs a method known as key splitting to divide the primary encryption key into multiple segments called *unseal keys*. These *unseal keys* function as components of the *master encryption key* and are essential for unlocking the **Vault** and accessing its contents.
-
-* By default, **Vault** initializes in a sealed state upon startup. To unlock and access its contents, a specific number of *unseal keys* must be provided. These keys may be distributed among different individuals or stored in secure locations.
-
-• Upon successful login, **Vault** issues an *access token* that operates under predefined *access token policies*. These policies dictate and enforce access control levels, determining users' abilities to view, modify, or update content within the **HashiCorp Vault**.
-
-### HashiCorp - Caching and Storing Mechanisms
+### Caching and Storing Mechanisms
 
 #### In-memory Data
 
@@ -118,7 +108,7 @@ A  vulnerability was observed wherein, upon **Vault** unseal, without user authe
 
        ![image](https://github.com/CarlosG13/HashiCorp-Vault---Unauthenticated-Memory-Secrets-Extraction/assets/69405457/ff6dd378-8133-4c6b-b181-0192606d6408)
 
-      **IMPORTANT:** At this point, we've merely **unsealed Vault**, but *we haven't authenticated against the machine*. Therefore, we can't interact with the system (For instance, viewing secret engines, authentication methods, mounting new secret engines, etc.) as *we don't yet possess a valid token (**Vault**'s core authentication mechanism)*."
+      **IMPORTANT:** At this point, we've merely **unsealed Vault**, but *we haven't authenticated against **Vault***. Therefore, we can't interact with the system (For instance, viewing secret engines, authentication methods, mounting new secret engines, etc.) as *we don't yet possess a valid token (**Vault**'s core authentication mechanism)*.
 
   3. Nevertheless, the vulnerability lies in the fact that when a new **Vault** process starts and is *unsealead*, it becomes possible to access the process's memory and retrieve the leases associated with a user. This can lead to the **extraction of clear-text credentials, along with relevant information tied to the token**:
 
