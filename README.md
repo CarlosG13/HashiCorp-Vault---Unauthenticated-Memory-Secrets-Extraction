@@ -1,11 +1,24 @@
 # HashiCorp Vault - Unauthenticated Memory Secrets Extraction
-Proof of concept to extract secrets when HashiCorp Vault is unsealed.
+Proof of concept to extract Active Directory LDAP from an unsealed **Hashicorp Vault**.
+
+### Disclaimer:
+This exploitation and/or abuse of **HashiCorp Vault** has been reported. Nevertheless, they didn't considered this condition as a *"Vulnerability"* due to their *Threat Model*, which stipulates the following: *"Protecting against memory analysis of a running Vault. If an attacker is able to inspect the memory state of a running Vault instance, then the confidentiality of data may be compromised."*
 
 ![Vault_VerticalLogo_FullColor](https://github.com/CarlosG13/HashiCorp-Vault---Unauthenticated-Memory-Secrets-Extraction/assets/69405457/e039395c-182d-489e-a4ca-a0cd6f34b326)
 
+### HashiCorp Vault and its multiple usages
+
+• **HashiCorp Vault** represents an open-source solution designed to securely store and manage sensitive information like passwords, API keys, and other confidential data. It also offers capabilities to oversee **PKI-related** structures such as *VPNs*, *SSH CAs*, and more.
+
+• **Vault** employs a method known as key splitting to divide the primary encryption key into multiple segments called *unseal keys*. These *unseal keys* function as components of the *master encryption key* and are essential for unlocking the **Vault** and accessing its contents.
+
+* By default, **Vault** initializes in a sealed state upon startup. To unlock and access its contents, a specific number of *unseal keys* must be provided. These keys may be distributed among different individuals or stored in secure locations.
+
+• Upon successful login, **Vault** issues an *access token* that operates under predefined *access token policies*. These policies dictate and enforce access control levels, determining users' abilities to view, modify, or update content within the **HashiCorp Vault**.
+
 ### Caching and Storing Mechanisms
 
-#### In-memory Data
+#### In-memory Data (Non-production environments)
 
 When we refer to the **HashiCorp Vault** documentation, we observe under which conditions it stores all information in memory:
 
